@@ -3,20 +3,15 @@ import transformers
 
 app = Flask(__name__)
 
-model = transformers.pipeline('sentiment-analysis')
-    
-def get_prediction(message,model):
-    # inference
-    results = model(message)  
-    return results
+sentiment_model = transformers.pipeline('sentiment-analysis')
 
 
-@app.route('/', methods=['POST'])
+@app.route('/sentiment-analysis', methods=['POST'])
 def predict():
     message = request.get_json()['message']
-    results = get_prediction(message, model)
-    prediction = results[0]["label"]
-    score = results[0]["score"]
+    results = sentiment_model(message)[0]
+    prediction = results["label"]
+    score = results["score"]
     return jsonify({ 'prediction': prediction, 'score': score })
 
 
