@@ -22,7 +22,6 @@ d = {
 
 if user_input and button:
     test_sample = tokenizer([user_input], padding=True, truncation=True, max_length=512,return_tensors='pt')
-    # test_sample
     output = model(**test_sample)
     st.write("Logits: ",output.logits)
     y_pred = np.argmax(output.logits.detach().numpy(),axis=1)
